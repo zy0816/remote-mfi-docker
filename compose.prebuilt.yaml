@@ -1,6 +1,6 @@
 services:
   mfi:
-    image: remote-mfi:1.0.2
+    image: remote-mfi:1.0.3
     # 先导入离线镜像；不拉取、不构建，避免在NAS下载apt/pip依赖。
     pull_policy: never
     init: true

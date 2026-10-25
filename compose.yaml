@@ -1,7 +1,7 @@
 services:
   mfi:
     build: .
-    image: remote-mfi:1.0.2
+    image: remote-mfi:1.0.3
     pull_policy: build
     init: true
     restart: unless-stopped

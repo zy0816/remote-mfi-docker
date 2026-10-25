@@ -2,11 +2,11 @@
 
 适用于已经取得维护者导出包的x86-64飞牛/NAS，不适用于32位ARM海纳思。导出任务只在GitHub构建镜像，不连接或修改NAS。
 
-1. 将`remote-mfi-v1.0.2-linux-amd64.tar.gz`上传到NAS，在本地镜像界面导入；若界面不接受该压缩格式，可在NAS终端执行：
+1. 将`remote-mfi-v1.0.3-linux-amd64.tar.gz`上传到NAS，在本地镜像界面导入；若界面不接受该压缩格式，可在NAS终端执行：
 
 ```sh
-docker load -i remote-mfi-v1.0.2-linux-amd64.tar.gz
-docker image inspect remote-mfi:1.0.2 --format '{{.Os}}/{{.Architecture}}'
+docker load -i remote-mfi-v1.0.3-linux-amd64.tar.gz
+docker image inspect remote-mfi:1.0.3 --format '{{.Os}}/{{.Architecture}}'
 ```
 
 第二条应显示linux/amd64。不使用docker import；镜像包不是源码ZIP，不要解压到Compose项目目录当作Dockerfile。

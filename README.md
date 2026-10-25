@@ -4,7 +4,7 @@
 
 ## 1. 下载
 
-下载并解压 [项目源码](https://github.com/zy0816/remote-mfi-docker/archive/refs/heads/main.zip)，进入包含 `Dockerfile`、`compose.yaml` 和 `mfi_service/` 的目录。**只复制 Compose 文本不能构建。**
+从 [Releases 最新版](https://github.com/zy0816/remote-mfi-docker/releases/latest) 下载 `remote-mfi-docker-v1.0.3.zip` 并解压，进入包含 `Dockerfile`、`compose.yaml` 和 `mfi_service/` 的目录。**只复制 Compose 文本不能构建。**
 
 ## 2. 设置
 
