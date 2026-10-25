@@ -11,7 +11,7 @@ services:
       MFI_BIND_PORT: '8787'
       MFI_LOG_LEVEL: INFO
     ports:
-      - '127.0.0.1:8787:8787'
+      - '0.0.0.0:8787:8787'
     volumes:
       - type: bind
         source: /dev/bus/usb
