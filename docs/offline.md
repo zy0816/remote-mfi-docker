@@ -13,7 +13,7 @@ docker image inspect remote-mfi:1.0.2 --format '{{.Os}}/{{.Architecture}}'
 
 2. 导入后，使用包里的`compose.yaml`（即仓库的compose.prebuilt.yaml），将CHANGE_ME换成自己的至少24字符随机令牌。
 3. 只创建这一个Compose项目。它没有build，且pull_policy为never，不会再下载Debian或Python依赖。不与原来正在构建的项目同时运行并争用同一芯片。
-4. 默认监听宿主机 TCP 8787；通过 `http://NAS内网IP:8787/healthz` 检查。公网直连或 VPS 中转操作见 [公网连接部署](remote.md)。
+4. 新版 Compose 默认监听宿主机 TCP 8787；通过 `http://NAS内网IP:8787/healthz` 检查。**如果使用旧离线包，其 Compose 端口仍是 `127.0.0.1:8787:8787`，先改成 `0.0.0.0:8787:8787`** 再部署。公网直连或 VPS 中转操作见 [公网连接部署](remote.md)。
 
 校验文件SHA256SUMS用于检查传输完整性。镜像源码和构建方式在本仓库，导出包source.txt记录具体提交；离线镜像不包含用户令牌/私钥/客户配置。
 
