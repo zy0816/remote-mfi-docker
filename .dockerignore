@@ -1,6 +1,11 @@
-.git
-.env
-secrets
-__pycache__
-.pytest_cache
-tests
+*
+!Dockerfile
+!Dockerfile.armv7
+!requirements.txt
+!docker-entrypoint.sh
+!mfi_service/
+!mfi_service/**
+!LICENSE
+!THIRD_PARTY_NOTICES.md
+**/__pycache__/
+**/*.pyc

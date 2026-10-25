@@ -1,14 +1,19 @@
 services:
   mfi:
     build: .
-    image: remote-mfi:1.0.1
+    image: remote-mfi:1.0.2
+    pull_policy: build
     init: true
     restart: unless-stopped
     environment:
-      MFI_AUTH_TOKEN: ${MFI_AUTH_TOKEN:?请在.env设置至少24字符随机令牌}
-      MFI_BIND_HOST: 127.0.0.1
+      # 将CHANGE_ME换成自己生成的至少24字符随机令牌，不加$或${}。
+      # 无需.env；未替换时服务会拒绝启动。
+      MFI_AUTH_TOKEN: "CHANGE_ME"
+      MFI_BIND_HOST: 0.0.0.0
       MFI_BIND_PORT: '8787'
       MFI_LOG_LEVEL: INFO
+    ports:
+      - '127.0.0.1:8787:8787'
     volumes:
       - type: bind
         source: /dev/bus/usb

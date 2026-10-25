@@ -1,10 +1,11 @@
 services:
   mfi:
     environment:
-      RELAY_SSH_HOST: ${RELAY_SSH_HOST:?请填写公网中转地址}
-      RELAY_SSH_PORT: ${RELAY_SSH_PORT:-22}
-      RELAY_SSH_USER: ${RELAY_SSH_USER:?请填写受限SSH账号}
-      RELAY_REMOTE_PORT: ${RELAY_REMOTE_PORT:-18787}
+      # 按docs/remote.md设置，不要照抄示例地址。
+      RELAY_SSH_HOST: relay.example.com
+      RELAY_SSH_PORT: '22'
+      RELAY_SSH_USER: mfi-tunnel
+      RELAY_REMOTE_PORT: '18787'
     volumes:
       - type: bind
         source: ./secrets/relay_ssh_key

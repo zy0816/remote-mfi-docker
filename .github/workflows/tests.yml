@@ -1,7 +1,7 @@
 name: Tests
 on:
   push:
-    branches: [main]
+    branches: [main, streamline-v1.0.2]
   pull_request:
 permissions:
   contents: read
@@ -18,10 +18,25 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: sh -n docker-entrypoint.sh
       - name: Validate Compose without displaying configuration
-        env:
-          MFI_AUTH_TOKEN: EXAMPLE_ONLY_FOR_CI_NOT_A_REAL_SECRET_123456
-          RELAY_SSH_HOST: relay.example.com
-          RELAY_SSH_USER: mfi-tunnel
         run: |
-          docker compose -f compose.yaml -f compose.direct.yaml config --quiet
+          docker compose config --quiet
+          docker compose -f compose.yaml -f compose.armv7.yaml config --quiet
           docker compose -f compose.yaml -f compose.relay.yaml config --quiet
+  docker-amd64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Build x86 runtime without compilers
+        run: docker build --platform linux/amd64 -t remote-mfi:ci .
+      - name: Check imports and absence of gcc
+        run: |
+          docker run --rm --entrypoint sh remote-mfi:ci -c 'test -z "$(command -v gcc)" && python -c "import usb.core,cryptography,cffi; print(cryptography.__version__,cffi.__version__)"'
+      - name: Default token must fail closed
+        run: |
+          set +e
+          output=$(docker run --rm -e MFI_AUTH_TOKEN=CHANGE_ME remote-mfi:ci 2>&1)
+          result=$?
+          set -e
+          test "$result" -ne 0
+          printf '%s' "$output" | grep -q 'MFI_AUTH_TOKEN'

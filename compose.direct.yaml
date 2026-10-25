@@ -1,8 +1,0 @@
-# 宿主机上的HTTPS反向代理访问127.0.0.1:8787。
-# 若代理也在容器里，请改用专用Docker网络，不公开8787到公网。
-services:
-  mfi:
-    environment:
-      MFI_BIND_HOST: 0.0.0.0
-    ports:
-      - '127.0.0.1:8787:8787'

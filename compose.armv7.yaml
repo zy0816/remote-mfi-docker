@@ -1,0 +1,5 @@
+services:
+  mfi:
+    build:
+      context: .
+      dockerfile: Dockerfile.armv7
