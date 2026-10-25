@@ -1,0 +1,20 @@
+services:
+  mfi:
+    environment:
+      RELAY_SSH_HOST: ${RELAY_SSH_HOST:?请填写公网中转地址}
+      RELAY_SSH_PORT: ${RELAY_SSH_PORT:-22}
+      RELAY_SSH_USER: ${RELAY_SSH_USER:?请填写受限SSH账号}
+      RELAY_REMOTE_PORT: ${RELAY_REMOTE_PORT:-18787}
+    volumes:
+      - type: bind
+        source: ./secrets/relay_ssh_key
+        target: /run/secrets/relay_ssh_key
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./secrets/relay_known_hosts
+        target: /run/secrets/relay_known_hosts
+        read_only: true
+        bind:
+          create_host_path: false

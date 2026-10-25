@@ -1,0 +1,2 @@
+# 在中转机专用账号中配置NAS的隧道公钥；额外用sshd策略限制为仅反向转发、禁止交互会话。
+restrict,port-forwarding,permitlisten="127.0.0.1:18787" ssh-ed25519 REPLACE_WITH_TUNNEL_PUBLIC_KEY

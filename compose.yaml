@@ -1,0 +1,30 @@
+services:
+  mfi:
+    build: .
+    image: remote-mfi:1.0.1
+    init: true
+    restart: unless-stopped
+    environment:
+      MFI_AUTH_TOKEN: ${MFI_AUTH_TOKEN:?请在.env设置至少24字符随机令牌}
+      MFI_BIND_HOST: 127.0.0.1
+      MFI_BIND_PORT: '8787'
+      MFI_LOG_LEVEL: INFO
+    volumes:
+      - type: bind
+        source: /dev/bus/usb
+        target: /dev/bus/usb
+    device_cgroup_rules:
+      - 'c 189:* rw'
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8787/healthz', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
