@@ -47,6 +47,8 @@ MFI_AUTH_TOKEN: "CHANGE_ME"
 
 ## 4. 命令行部署
 
+如果已取得维护者构建好的x86离线镜像，改用[离线导入步骤](docs/offline.md)，不在NAS本地构建。维护者可在Actions手动导出；Release源码ZIP与容器镜像不是同一种文件。
+
 进入含`compose.yaml`的目录；需要管理员权限的环境在命令前加`sudo`。
 
 ### x86-64／ARM64

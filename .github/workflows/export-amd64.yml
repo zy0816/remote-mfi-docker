@@ -1,0 +1,33 @@
+name: Export x86 image
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Build amd64 runtime
+        run: docker build --platform linux/amd64 -t remote-mfi:1.0.2 .
+      - name: Verify runtime before export
+        run: |
+          docker run --rm --entrypoint sh remote-mfi:1.0.2 -c 'test -z "$(command -v gcc)" && python -c "import usb.core,cryptography,cffi,mfi_service; assert mfi_service.__version__ == \"1.0.2\"; print(cryptography.__version__,cffi.__version__)"'
+          docker compose -f compose.prebuilt.yaml config --quiet
+      - name: Export image and offline configuration
+        run: |
+          set -euo pipefail
+          mkdir export
+          docker save remote-mfi:1.0.2 | gzip -1 > export/remote-mfi-v1.0.2-linux-amd64.tar.gz
+          cp compose.prebuilt.yaml export/compose.yaml
+          cp docs/offline.md export/README.md
+          printf 'https://github.com/zy0816/remote-mfi-docker/tree/%s\n' "$GITHUB_SHA" > export/source.txt
+          cd export
+          sha256sum remote-mfi-v1.0.2-linux-amd64.tar.gz compose.yaml README.md source.txt > SHA256SUMS
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: remote-mfi-amd64-offline
+          path: export/
+          retention-days: 7
+          compression-level: 0
